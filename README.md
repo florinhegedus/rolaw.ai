@@ -20,7 +20,6 @@ Auxiliary material to be checked in the future:
 - Hotărâri de Guvern (HG) și Ordonanțe de Urgență (OUG)
 - Regulamente locale
 
-## Architecture overview
 ## System Architecture
 
 ```mermaid
@@ -30,33 +29,33 @@ flowchart TB
 
     subgraph Frontend[ ]
         direction TB
-        WebApp[Web App<br>(React)]
-        MobileApp[Mobile App<br>(React Native)]
+        WebApp[Web App (React)]
+        MobileApp[Mobile App (React Native)]
     end
 
-    subgraph APIGateway[API Gateway<br>(Istio or Kong Gateway)]
+    subgraph APIGateway[API Gateway (Istio or Kong Gateway)]
     end
 
     subgraph Backend[ ]
-        SemanticSearch[Semantic Search<br>(FastAPI)]
-        LLMService[LLM Service<br>(FastAPI)]
-        UserService[User Service<br>(FastAPI)]
-        AuthService[Auth Service<br>(OAuth 2.0)]
+        SemanticSearch[Semantic Search (FastAPI)]
+        LLMService[LLM Service (FastAPI)]
+        UserService[User Service (FastAPI)]
+        AuthService[Auth Service (OAuth 2.0)]
     end
 
     subgraph DataLayer[Data Layer]
-        VectorDB[Vector Database<br>(Pinecone, Weaviate)]
-        RelationalDB[Relational Database<br>(PostgreSQL)]
-        ObjectStorage[Object Storage<br>(GCP Storage or S3)]
+        VectorDB[Vector DB (Pinecone, Weaviate)]
+        RelationalDB[Relational DB (PostgreSQL)]
+        ObjectStorage[Object Storage (GCP or S3)]
     end
 
-    subgraph Kubernetes[Kubernetes Cluster<br>(GKE, EKS, or AKS)]
+    subgraph Kubernetes[Kubernetes Cluster (GKE, EKS, or AKS)]
     end
 
-    subgraph CICD[CI/CD Pipeline<br>(GitHub Actions)]
+    subgraph CICD[CI/CD Pipeline (GitHub Actions)]
     end
 
-    subgraph Monitoring[Monitoring and Logging<br>(Prometheus, Grafana, ELK Stack)]
+    subgraph Monitoring[Monitoring and Logging (Prometheus, Grafana, ELK Stack)]
     end
 
     Users --> Frontend
