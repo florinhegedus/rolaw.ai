@@ -21,49 +21,46 @@ Auxiliary material to be checked in the future:
 - Regulamente locale
 
 ## System Architecture
+          +-----------------------------------------------------------+
+          |                          Users                            |
+          +---------------------+--------------------------+----------+
+                                |                          |
+                             Web App                   Mobile App
+                              (React)                    (React Native)
+                                |                          |
+          +---------------------v--------------------------v----------+
+          |                        API Gateway                        |
+          |                  (Istio or Kong Gateway)                  |
+          +------------+------------+------------+------------+-------+
+                       |            |            |            |
+                       |            |            |            |
+                       v            v            v            v
+                Semantic Search   LLM Service   User Service   Auth Service
+                  (FastAPI)         (FastAPI)      (FastAPI)      (OAuth 2.0)
+                       |            |            |            |
+                       |            |            |            |
+          +------------v------------+------------v------------+---------+
+          |                           Data Layer                        |
+          |            +--------------+--------------+                  |
+          |            |                             |                  |
+          |      Vector Database                Relational Database     |
+          |        (Pinecone,                      (PostgreSQL)         |
+          |        Weaviate)                                            |
+          +-------------------------------+-----------------------------+
+                                          |
+                                   Object Storage
+                                  (GCP Storage or S3)
+                                          |
+                                  Legal Document Corpus
+                            (Raw text, PDFs, JSON, etc.)
+                                          |
+                              +------------v------------+
+                              |      Kubernetes Cluster |
+                              | (GKE, EKS, or AKS)      |
+                              +-------------------------+
+                                          |
+                                 CI/CD Pipeline (GitHub Actions)
+                                          |
+                                  Monitoring and Logging
+                              (Prometheus, Grafana, ELK Stack)
 
-```mermaid
-flowchart TB
-    subgraph Users[Users]
-    end
-
-    subgraph Frontend[ ]
-        direction TB
-        WebApp[Web App (React)]
-        MobileApp[Mobile App (React Native)]
-    end
-
-    subgraph APIGateway[API Gateway (Istio or Kong Gateway)]
-    end
-
-    subgraph Backend[ ]
-        SemanticSearch[Semantic Search (FastAPI)]
-        LLMService[LLM Service (FastAPI)]
-        UserService[User Service (FastAPI)]
-        AuthService[Auth Service (OAuth 2.0)]
-    end
-
-    subgraph DataLayer[Data Layer]
-        VectorDB[Vector DB (Pinecone, Weaviate)]
-        RelationalDB[Relational DB (PostgreSQL)]
-        ObjectStorage[Object Storage (GCP or S3)]
-    end
-
-    subgraph Kubernetes[Kubernetes Cluster (GKE, EKS, or AKS)]
-    end
-
-    subgraph CICD[CI/CD Pipeline (GitHub Actions)]
-    end
-
-    subgraph Monitoring[Monitoring and Logging (Prometheus, Grafana, ELK Stack)]
-    end
-
-    Users --> Frontend
-    Frontend --> APIGateway
-    APIGateway --> Backend
-    Backend --> DataLayer
-    DataLayer --> ObjectStorage
-    ObjectStorage --> Kubernetes
-    Kubernetes --> CICD
-    CICD --> Monitoring
-```
