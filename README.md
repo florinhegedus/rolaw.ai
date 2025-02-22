@@ -21,46 +21,11 @@ Auxiliary material to be checked in the future:
 - Regulamente locale
 
 ## System Architecture
-          +-----------------------------------------------------------+
-          |                          Users                            |
-          +---------------------+--------------------------+----------+
-                                |                          |
-                             Web App                   Mobile App
-                              (React)                    (React Native)
-                                |                          |
-          +---------------------v--------------------------v----------+
-          |                        API Gateway                        |
-          |                  (Istio or Kong Gateway)                  |
-          +------------+------------+------------+------------+-------+
-                       |            |            |            |
-                       |            |            |            |
-                       v            v            v            v
-                Semantic Search   LLM Service   User Service   Auth Service
-                  (FastAPI)         (FastAPI)      (FastAPI)      (OAuth 2.0)
-                       |            |            |            |
-                       |            |            |            |
-          +------------v------------+------------v------------+---------+
-          |                           Data Layer                        |
-          |            +--------------+--------------+                  |
-          |            |                             |                  |
-          |      Vector Database                Relational Database     |
-          |        (Pinecone,                      (PostgreSQL)         |
-          |        Weaviate)                                            |
-          +-------------------------------+-----------------------------+
-                                          |
-                                   Object Storage
-                                  (GCP Storage or S3)
-                                          |
-                                  Legal Document Corpus
-                            (Raw text, PDFs, JSON, etc.)
-                                          |
-                              +------------v------------+
-                              |      Kubernetes Cluster |
-                              | (GKE, EKS, or AKS)      |
-                              +-------------------------+
-                                          |
-                                 CI/CD Pipeline (GitHub Actions)
-                                          |
-                                  Monitoring and Logging
-                              (Prometheus, Grafana, ELK Stack)
+DB
+Backend
+Frontend
 
+Kubernets infrastructure
+
+## Data collection and Preprocessing
+The legal information is gathered from [legislatie.just.ro](https://legislatie.just.ro/).
