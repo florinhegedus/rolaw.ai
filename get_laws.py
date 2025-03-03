@@ -6,7 +6,7 @@ CODUL_PENAL_LINK = "https://legislatie.just.ro/Public/DetaliiDocument/109855"
 
 
 def main():
-    page = requests.get(CODUL_PENAL_LINK + "#id_artA1468")
+    page = requests.get(CODUL_PENAL_LINK)
 
     # Save content to file
     with open('CODUL_PENAL.html', 'wb+') as f:
@@ -23,13 +23,8 @@ def main():
 
     # Dictionary to store extracted texts
     article_texts = {}
-
-    for article in articles:
-        article_id = article.get('id', 'No_ID')
-        # Initialize text container for the current article
-        for elem in article.contents:
-            continue
-
+    law_texts = [article.text for article in articles]
+    law_dict = {article.contents[1].text: article.contents[3].text for article in articles}
 
 
 if __name__ == '__main__':
