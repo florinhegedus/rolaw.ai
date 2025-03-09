@@ -54,3 +54,32 @@ s3-download-rolaw-dataset:  # Download rolaw dataset from S3 to local folder
 	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) rolaw/dataset/data.zip $(ROLAW_LOCAL_DATA_PATH)
 
 download-rolaw-dataset: s3-download-rolaw-dataset
+
+
+# --- Offline ML Pipelines ---
+collect-rolaw-data-pipeline:
+	uv run python -m tools.run --run-collect-rolaw-data-pipeline --no-cache
+
+etl-pipeline:
+	uv run python -m tools.run --run-etl-pipeline --no-cache
+
+etl-precomputed-pipeline:
+	uv run python -m tools.run --run-etl-precomputed-pipeline --no-cache
+
+generate-dataset-pipeline:
+	uv run python -m tools.run --run-generate-dataset-pipeline --no-cache
+
+compute-rag-vector-index-huggingface-contextual-simple-pipeline:
+	uv run python -m tools.run --run-compute-rag-vector-index-huggingface-contextual-simple-pipeline --no-cache
+
+compute-rag-vector-index-openai-contextual-simple-pipeline:
+	uv run python -m tools.run --run-compute-rag-vector-index-openai-contextual-simple-pipeline --no-cache
+
+compute-rag-vector-index-openai-contextual-pipeline:
+	uv run python -m tools.run --run-compute-rag-vector-index-openai-contextual-pipeline --no-cache
+
+compute-rag-vector-index-openai-parent-pipeline:
+	uv run python -m tools.run --run-compute-rag-vector-index-openai-parent-pipeline --no-cache
+
+delete-rag-collection:
+	uv run python -m tools.delete_rag_collection
