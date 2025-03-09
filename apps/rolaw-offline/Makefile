@@ -10,7 +10,7 @@ export PYTHONPATH = .
 # --- Default Values ---
 CHECK_DIRS := .
 AWS_S3_BUCKET_NAME := rolaw
-ROLAW_LOCAL_DATA_PATH := ./tools/
+ROLAW_LOCAL_DATA_PATH := ./data/
 
 
 # --- Utilities ---
@@ -41,7 +41,7 @@ local-infrastructure-stop: local-docker-infrastructure-stop local-zenml-server-s
 
 
 # --- AWS ---
-validate_aws_boto3:
+validate_aws_boto3:  # Check AWS credentials
 	@echo "Validating AWS Boto3 credentials..."
 	uv run python -m tools.validate_aws_boto3
 
@@ -50,7 +50,7 @@ s3-upload-rolaw-dataset:  # Upload rolaw dataset from local folder to S3
 	uv run python -m tools.use_s3 upload $(ROLAW_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix rolaw/dataset
 
 s3-download-rolaw-dataset:  # Download rolaw dataset from S3 to local folder
-	@echo "Downloading rolaw dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/rolaw/dataset/dataset.zip"
-	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) rolaw/dataset/dataset.zip $(ROLAW_LOCAL_DATA_PATH) --no-sign-request
+	@echo "Downloading rolaw dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/rolaw/dataset/data.zip"
+	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) rolaw/dataset/data.zip $(ROLAW_LOCAL_DATA_PATH)
 
 download-rolaw-dataset: s3-download-rolaw-dataset

@@ -9,7 +9,7 @@ This guide will help you set up and run the RO Law AI Module.
 - [🎯 Getting Started](#-getting-started)
 - [📁 Project Structure](#-project-structure)
 - [🏗️ Set Up Your Local Infrastructure](#-set-up-your-local-infrastructure)
-- [⚡️ Running the Code for Each Module](#️-running-the-code-for-each-module)
+- [⚡️ Running the Code](#️-running-the-code)
 - [🔧 Utlity Commands](#-utility-commands)
 
 # 📋 Prerequisites
@@ -83,8 +83,8 @@ Before running any command, you have to set up your environment:
 ## 4. Setup AWS
 For using AWS, you need to have an AWS account.
 1. From AWS Console Home, go to `IAM` -> `Access Management` -> `Users` -> `Create user`. 
-2. Add `AmazonS3FullAccess` permission.
-3. Create access key.
+2. Add `AmazonS3FullAccess` permission to the user.
+3. Create an access key for the user.
 4. In terminal, run `aws configure` and paste the access key and secret access key.
 
 
@@ -94,15 +94,15 @@ The repo follows the structure of a real-world Python project:
 
 ```bash
 .
-├── configs/                   # 
-├── pipelines/                 # 
-├── src/rolaw-offline/         # Main package directory
+├── configs/                   # ZenML configuration files
+├── pipelines/                 # ZenML ML pipeline definitions
+├── src/rolaw_offline/         # Main package directory
 │   ├── application/           # Application layer
 │   ├── domain/                # Domain layer
 │   ├── infrastructure/        # Infrastructure layer
 │   ├── config.py              # Configuration settings
 │   └── utils.py               # Utility functions
-├── steps/                     # Pipeline steps
+├── steps/                     # ZenML pipeline steps
 ├── tests/                     # Test files
 ├── tools/                     # Entrypoint scripts that use the Python package
 ├── .env.example               # Environment variables template
@@ -125,9 +125,29 @@ make local-infrastructure-up
 
 To stop it, run:
 ```bash
-make local-infrastructure-down
+make local-infrastructure-stop
 ```
 
 > [!NOTE]
 > To visualize the raw and RAG data from MongoDB, we recommend using [MongoDB Compass](https://www.mongodb.com/products/tools/compass) or Mongo's official IDE plugin (e.g., `MongoDB for VS Code`). To connect to the working MongoDB instance, use the `MONGODB_URI` value from the `.env` file or found inside the [config.py](src/rolaw_offline/config.py) file.
 
+# ⚡️ Running the Code
+
+## ETL pipeline
+
+### Prepare RO Law data
+
+Download our prepared RO Law dataset from S3 (recommended):
+```bash
+make download-rolaw-dataset
+# Validate using test: make test-download-notion-dataset
+```
+### Run the ETL pipeline
+
+Run the ETL pipeline to crawl, score and ingest the rolaw data into MongoDB:
+```bash
+make etl-pipeline
+```
+Running criteria:
+- Running costs: ~$0.5
+- Running time: ~30 minutes
